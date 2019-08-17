@@ -9,7 +9,7 @@ import { ADD_INGREDIENT } from '../actions/ingredients';
 
 const OrdersPositions = {
   clients: { next: 'conveyor_1', prev: null },
-  conveyor_1: { next: 'conveyor_2', prev: null },
+  conveyor_1: { next: 'conveyor_2', prev: 'conveyor_1' },
   conveyor_2: { next: 'conveyor_3', prev: 'conveyor_1' },
   conveyor_3: { next: 'conveyor_4', prev: 'conveyor_2' },
   conveyor_4: { next: 'finish', prev: 'conveyor_3' }
@@ -19,7 +19,7 @@ const moveOrders = (arr, posToCompare, method, action) => {
   return arr.map(el => {
     if (el.id === action.payload) {
       return (el.position === posToCompare ||
-              (el.position === `conveyor_4` && el.ingredients.length === 0)) ?
+              (el.position === Object.keys(OrdersPositions)[Object.keys(OrdersPositions).length-1] && el.ingredients.length === 0)) ?
         el :
         {...el, position: OrdersPositions[el.position][method]};
     } else {
